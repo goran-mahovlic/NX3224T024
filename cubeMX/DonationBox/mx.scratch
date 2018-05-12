@@ -9,6 +9,7 @@
 
 <filestoremove>
     <file>
+    <name>Src/i2c.c</name>
     </file>
 </filestoremove>
 
@@ -32,7 +33,7 @@
     <usedDebug>true</usedDebug>
     	<debugprobe></debugprobe>
     <optimization></optimization>
-    <icfloc>1</icfloc>
+    <icfloc>0</icfloc>
     <Adefines>
         <define></define>
     </Adefines>   
@@ -92,10 +93,10 @@
 		   <group>
 		 		<name>STM32F0xx_HAL_Driver</name>
 						<file>
-							<name>Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.c</name>
+							<name>Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc.c</name>
 						</file>
 						<file>
-							<name>Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.c</name>
+							<name>Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc_ex.c</name>
 						</file>
 						<file>
 							<name>Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc.c</name>
@@ -129,6 +130,12 @@
 						</file>
 						<file>
 							<name>Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.c</name>
+						</file>
+						<file>
+							<name>Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.c</name>
+						</file>
+						<file>
+							<name>Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.c</name>
 						</file>
 						<file>
 							<name>Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.c</name>
@@ -172,6 +179,10 @@
                                 </file>
 
                                 <file>
+                                 <name>Src/crc.c</name>
+                                </file>
+
+                                <file>
                                  <name>Src/dma.c</name>
                                 </file>
 
@@ -181,10 +192,6 @@
 
                                 <file>
                                  <name>Src/fatfs.c</name>
-                                </file>
-
-                                <file>
-                                 <name>Src/i2c.c</name>
                                 </file>
 
                                 <file>
@@ -266,9 +273,9 @@
     <group>
         <name>Src</name>
                     <group>
-                    <name>i2c.c</name>
+                    <name>crc.c</name>
                                     <file>
-                                            <name>Src/i2c.c</name>
+                                            <name>Src/crc.c</name>
                                     </file>
                     </group>
     </group>
