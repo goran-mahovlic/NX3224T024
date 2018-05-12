@@ -48,7 +48,23 @@ Drivers \
 Application/User \
 Drivers/CMSIS \
 Middlewares \
-Application/User/Src/gpio.c
+Application/User/Src/gpio.c \
+../../src/HX8352C/GUIDEMO.c \
+../../src/HX8352C/GUIDEMO_Resource.c \
+../../src/HX8352C/GUIDEMO_Conf.c \
+../../src/HX8352C/GUIDEMO_Intro.c \
+../../src/HX8352C/GUIDEMO_AntialiasedText.c \
+../../src/HX8352C/GUIDEMO_Speed.c \
+../../src/HX8352C/HX8352C_GPIO.c \
+../../src/HX8352C/GUIDRV_HX8352C.c \
+../../src/HX8352C/LCDConf.c \
+../../src/HX8352C/GUIConf.c \
+../../src/HX8352C/GUI_X.c 
+  #system_stm32f10x.c \
+  #stm32f10x_it.c
+#SRCSASM = \
+  #startup_stm32f10x_hd.s \
+ # ../../HX8352C_GPIO_Lowlevel.s
 
 # firmware library path
 PERIFLIB_PATH = 
@@ -66,7 +82,6 @@ Src/usart.c \
 /Src/system_stm32f0xx.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.c \
-Src/stm32f0xx_hal_msp.c \
 Middlewares/Third_Party/FatFs/src/ff.c \
 Middlewares/Third_Party/FatFs/src/ff_gen_drv.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.c \
@@ -76,10 +91,8 @@ Src/user_diskio.c \
 Src/rtc.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.c \
-Src/spi.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim.c \
 Middlewares/Third_Party/FatFs/src/diskio.c \
-Src/main.c \
 Src/dma.c \
 Src/stm32f0xx_it.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi_ex.c \
@@ -87,10 +100,10 @@ Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_uart.c \
 Src/gpio.c \
 Src/main.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.c \
-Src/usart.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.c \
 Src/fatfs.c \
+Src/crc.c \
 Middlewares/Third_Party/FatFs/src/option/syscall.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc_ex.c \
@@ -98,21 +111,15 @@ Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_spi.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.c \
-Src/gpio.c \
-Src/fatfs.c \
-Src/stm32f0xx_it.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.c \
-Src/user_diskio.c \
-Src/dma.c \
-Src/rtc.c \
-Src/crc.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_crc_ex.c
 
 # ASM sources
 ASM_SOURCES =  \
-startup_stm32f030x8.s
+startup_stm32f030x8.s \
+../../HX8352C/src/HX8352C_GPIO_Lowlevel.s
 
 
 ######################################
@@ -124,7 +131,7 @@ PERIFLIB_SOURCES =
 #######################################
 # binaries
 #######################################
-BINPATH = 
+BINPATH = /usr/bin
 PREFIX = arm-none-eabi-
 CC = $(BINPATH)/$(PREFIX)gcc
 AS = $(BINPATH)/$(PREFIX)gcc -x assembler-with-cpp
@@ -169,8 +176,8 @@ C_INCLUDES =  \
 -IDrivers/STM32F0xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F0xx/Include \
 -IMiddlewares/Third_Party/FatFs/src \
--IDrivers/CMSIS/Include
-
+-IDrivers/CMSIS/Include \
+-I../../HX8352C/inc
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
