@@ -35,21 +35,21 @@ void ili9341_Init_Command_Pin(void){
 
 	GPIO_InitTypeDef GPIO_InitStruct;
 
-	GPIO_COMMANDS->BRR = (uint32_t)(WR_PIN|RD_PIN|DC_PIN);
+	GPIOA->BRR = (uint32_t)(WR_PIN|RD_PIN|DC_PIN);
 
 	GPIO_InitStruct.Pin = WR_PIN|RD_PIN|DC_PIN;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIO_COMMANDS, &GPIO_InitStruct);
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-        GPIO_COMMANDS->BRR = (uint32_t)(CS_PIN);
+    GPIOC->BRR = (uint32_t)(CS_PIN);
 
-        GPIO_InitStruct.Pin = CS_PIN;
-        GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-        HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    GPIO_InitStruct.Pin = CS_PIN;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 }
 
@@ -83,43 +83,25 @@ void ili9341_Set_Data_Pin_In(void)
 	HAL_GPIO_Init(GPIO_DATA, &GPIO_InitStruct);
 }
 
-
 //--------------------------------------------------------------------
 //Основные функции
 //--------------------------------------------------------------------
 
 //Отправка команды/адреса регистра дисплею
-
-void ili9341_Send_Cmd (uint8_t cmd){
-  DC_LOW
-  GPIO_DATA->ODR = (uint32_t)cmd;
-  WR_LOW
-  WR_HIGH
-}
-
-/*
-void ili9341_Send_Cmd1 (uint8_t cmd)
+void ili9341_Send_Cmd (uint8_t cmd)
 {
 	CS_LOW								//Активируем чип
 	DC_LOW								//Будем отправлять адрес регистра
 	RD_HIGH
 	WR_LOW
 	GPIO_DATA->ODR = (uint32_t)cmd;
-*/
     /*Если не будет работать необходимо попробовать добавить здесь задержку
      * около 5 МИКРОсекунд. При этом заметно уменьшится скорость обновления дисплея.
      * У меня прекрасно работает без задержки.*/
-//	WR_HIGH
-//	CS_HIGH								//Деактивируем чип
-//}
-
-//uint8_t ili9341_Read_Data1 (void)
-//{
- // DC_LOW
- // GPIO_DATA->ODR = (uint32_t)cmd;
- // WR_LOW
- // WR_HIGH
-//}
+	HAL_Delay(5);
+	WR_HIGH
+	CS_HIGH								//Деактивируем чип
+}
 
 
 //Чтение из дисплея
@@ -135,36 +117,29 @@ uint8_t ili9341_Read_Data (void)
     /*Если не будет работать необходимо попробовать добавить здесь задержку
      * около 5 МИКРОсекунд. При этом заметно уменьшится скорость обновления дисплея.
      * У меня прекрасно работает без задержки.*/
+	HAL_Delay(5);
 	RD_HIGH
 	CS_HIGH								//Деактивируем чип
 	ili9341_Set_Data_Pin_Out();
 	return data;
 }
 
-void ili9341_Write_Data (uint16_t data)
-{
-  DC_HIGH
-  GPIO_DATA->ODR = (uint32_t)data;
-  WR_LOW
-  WR_HIGH
-}
 
 //Запись 8/16 бит в дисплей
-/*
-void ili9341_Write_Data1 (uint16_t data)
+void ili9341_Write_Data (uint16_t data)
 {
 	CS_LOW //Активируем чип
 	DC_HIGH //Будет отправлять параметры или данные
 	RD_HIGH
 	WR_LOW
 	GPIO_DATA->ODR = (uint32_t)data;
-*/
     /*Если не будет работать необходимо попробовать добавить здесь задержку
      * около 5 МИКРОсекунд. При этом заметно уменьшится скорость обновления дисплея.
      * У меня прекрасно работает без задержки.*/
-//	WR_HIGH
-//	CS_HIGH //Деактивируем чип
-//}
+	HAL_Delay(5);
+	WR_HIGH
+	CS_HIGH //Деактивируем чип
+}
 
 
 //Разбивает 16 бит по 8 и отправляет на дисплей
@@ -210,80 +185,53 @@ void ili9341_Init (void)
 	ili9341_Init_Command_Pin();
 	ili9341_Set_Data_Pin_Out();
 
-        CS_LOW                                                          //Активируем чип
-        WR_HIGH
-        DC_HIGH
-        RD_LOW
-
-
-
-        CS_HIGH
-        RD_HIGH
-        WR_HIGH
-        DC_LOW
-        HAL_Delay(20);
-        DC_HIGH
-        HAL_Delay(20);
-        CS_LOW
-
 	ili9341_Send_Cmd(LCD_SWRESET);	//Software Reset
 	HAL_Delay(1000);
 
-  HAL_Delay(10);
-  ili9341_Write_Data(0x11); // Sleep OUT
-  ili9341_Write_Data(0x3a); // Interface Pixel Format
-  ili9341_Write_Data(0x55); //0x66 5-6-5 / 55 6-6-6
-  HAL_Delay(150);
-  ili9341_Write_Data(0x20); // INVOFF 0x20
-  //tft_write_reg(0x21); // INVON 0x21
-  //tft_SetRotation(0);
-  ili9341_Write_Data(0x29); // Display ON
-
 	//Power Control 1
-//	ili9341_Send_Cmd(LCD_POWER1);	//задаём градацию серого цвета
-//	ili9341_Write_Data(0x25);
+	ili9341_Send_Cmd(LCD_POWER1);	//задаём градацию серого цвета
+	ili9341_Write_Data(0x25);
 
 	//Power Control 2
-//	ili9341_Send_Cmd(LCD_POWER2);	//настройка step up преобразователя
-//	ili9341_Write_Data(0x01);
+	ili9341_Send_Cmd(LCD_POWER2);	//настройка step up преобразователя
+	ili9341_Write_Data(0x01);
 
 	//VCOM Control 1
-//	ili9341_Send_Cmd(LCD_VCOM1);	//контрастность определяется разностью VCOMH - VCOML = 5.2V
-//	ili9341_Write_Data(0x2B);		//VCOMH = 3.775
-//	ili9341_Write_Data(0x2B);		//VCOML = -1.425
+	ili9341_Send_Cmd(LCD_VCOM1);	//контрастность определяется разностью VCOMH - VCOML = 5.2V
+	ili9341_Write_Data(0x2B);		//VCOMH = 3.775
+	ili9341_Write_Data(0x2B);		//VCOML = -1.425
 
 	//VCOM Control 2
-//	ili9341_Send_Cmd(LCD_VCOM2);	//на Vcom по сути ШИМ, а тут мы задаем offset для него
-//	ili9341_Write_Data(0x06);		//VML=58 VMH=58
+	ili9341_Send_Cmd(LCD_VCOM2);	//на Vcom по сути ШИМ, а тут мы задаем offset для него
+	ili9341_Write_Data(0x06);		//VML=58 VMH=58
 
 	//Memory Access Control
-//	ili9341_Set_Orientation(ORIENTATION_LANDSCAPE);	//выбираем ориентацию дисплея
+	ili9341_Set_Orientation(ORIENTATION_LANDSCAPE);	//выбираем ориентацию дисплея
 
 	//COLMOD: Pixel Format Set
-//	ili9341_Send_Cmd(LCD_PIXEL_FORMAT);				//один пиксель будет кодироваться 16 битами
-//	ili9341_Write_Data(0x05);
+	ili9341_Send_Cmd(LCD_PIXEL_FORMAT);				//один пиксель будет кодироваться 16 битами
+	ili9341_Write_Data(0x05);
 
 	//Frame Rate Control
-//	ili9341_Send_Cmd(LCD_FRMCTR1);
-//	ili9341_Write_Data(0x00);
-//	ili9341_Write_Data(0x18);		//Frame Rate 79Hz
+	ili9341_Send_Cmd(LCD_FRMCTR1);
+	ili9341_Write_Data(0x00);
+	ili9341_Write_Data(0x18);		//Frame Rate 79Hz
 
 	//Display Function Control
-//	ili9341_Send_Cmd(LCD_DFC);
-//	ili9341_Write_Data(0x0A);
-//	ili9341_Write_Data(0x82);		//восьмой бит определяет нормальный цвет кристала белый - 1, черный - 0,
-//	ili9341_Write_Data(0x27);
+	ili9341_Send_Cmd(LCD_DFC);
+	ili9341_Write_Data(0x0A);
+	ili9341_Write_Data(0x82);		//восьмой бит определяет нормальный цвет кристала белый - 1, черный - 0,
+	ili9341_Write_Data(0x27);
 
 	//COLMOD: Pixel Format Set
-//	ili9341_Send_Cmd(LCD_PIXEL_FORMAT);
-//	ili9341_Write_Data(0x55);
+	ili9341_Send_Cmd(LCD_PIXEL_FORMAT);
+	ili9341_Write_Data(0x55);
 
 	//Sleep Out
-//	ili9341_Send_Cmd(LCD_SLEEP_OUT);
+	ili9341_Send_Cmd(LCD_SLEEP_OUT);
 
-//	HAL_Delay(120);
+	HAL_Delay(120);
 
 	//Display On
-//	ili9341_Send_Cmd(LCD_DISPLAY_ON);
+	ili9341_Send_Cmd(LCD_DISPLAY_ON);
 }
-
