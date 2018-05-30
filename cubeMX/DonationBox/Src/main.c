@@ -116,14 +116,22 @@ int main(void)
   MX_USART1_UART_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_UART_Receive_IT(&huart1, (uint8_t*)rxData, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
+  uint8_t buffer[3];
+  buffer[0] = 11;
+  buffer[1] = 0x0d;
+  buffer[2] = 0x0a;
+  HAL_UART_Transmit_IT(&huart1, (uint8_t*)buffer, 3);
+  HAL_Delay(1000);
+  if (dataReady==1){
+     dataReady = 0;
+  }
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */

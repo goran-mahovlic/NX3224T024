@@ -36,7 +36,8 @@
 #include "stm32f0xx_it.h"
 
 /* USER CODE BEGIN 0 */
-
+char rxBuffer[100], dataReady, rxData[2];
+char rxIndex;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -173,5 +174,22 @@ void USART1_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 
+
+//Interrupt callback routine
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    uint8_t i;
+    if (huart->Instance == USART1){  //current UART
+        if (rxIndex==0) {for (i=0;i<100;i++) rxBuffer[i]=0;}   //clear Rx_Buffer before receiving new data
+        rxBuffer[rxIndex++]=rxData[0];    //add data to Rx_Buffer
+
+        if (rxData[0] == 0x0a){ //if received data different from hex 0x0A
+            rxIndex=0;
+            dataReady=1;//transfer complete, data is ready to read
+        }
+
+        HAL_UART_Receive_IT(&huart1, (uint8_t*)rxData, 1);   //activate UART receive interrupt every time
+        }
+}
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
