@@ -466,4 +466,8 @@ Wire Notes Line
 	9250 4950 11050 4950
 Wire Notes Line
 	11050 4950 11050 4900
+Text GLabel 7550 2950 2    60   Input ~ 0
+LCD_BACKLIGHT
+Wire Wire Line
+	7150 2950 7550 2950
 $EndSCHEMATC
