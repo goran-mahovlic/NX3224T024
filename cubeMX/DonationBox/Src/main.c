@@ -56,6 +56,8 @@
 #include "spi.h"
 #include "usart.h"
 #include "gpio.h"
+#include "ILI9341_core.h"
+#include "ILI9341_draw.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -117,6 +119,15 @@ int main(void)
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
   HAL_UART_Receive_IT(&huart1, (uint8_t*)rxData, 1);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8,GPIO_PIN_SET);
+  HAL_Delay(1000);
+  ili9341_Init();
+    HAL_Delay(1000);
+  ili9341_Draw_Line( 10,10,10, 10,0xF800);
+  HAL_Delay(1000);
+  //void ili9341_Draw_Rectangle(uint16_t x, uint16_t y, uint16_t length, uint16_t width, uint16_t color);
+  ili9341_Draw_Rectangle(10,10,50,50,0xF800);
+  HAL_Delay(1000);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -127,10 +138,13 @@ int main(void)
   buffer[0] = 11;
   buffer[1] = 0x0d;
   buffer[2] = 0x0a;
+
   HAL_UART_Transmit_IT(&huart1, (uint8_t*)buffer, 3);
+
   HAL_Delay(1000);
   if (dataReady==1){
      dataReady = 0;
+     
   }
   /* USER CODE END WHILE */
 

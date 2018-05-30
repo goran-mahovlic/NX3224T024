@@ -91,7 +91,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, LCD_RD_Pin|LCD_RW_Pin|LCD_RS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PCPin PCPin */
-  GPIO_InitStruct.Pin = SD_NSS_Pin|LCD_CS_Pin;
+  GPIO_InitStruct.Pin = SD_NSS_Pin|LCD_CS_Pin|GPIO_PIN_9;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -111,7 +111,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PAPin PAPin PAPin */
-  GPIO_InitStruct.Pin = LCD_RD_Pin|LCD_RW_Pin|LCD_RS_Pin;
+  GPIO_InitStruct.Pin = LCD_RD_Pin|LCD_RW_Pin|LCD_RS_Pin|GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

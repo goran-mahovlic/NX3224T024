@@ -104,6 +104,8 @@ Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_tim_ex.c \
 Src/fatfs.c \
 Src/crc.c \
+Src/ILI9341_core.c \
+Src/ILI9341_draw.c \
 Middlewares/Third_Party/FatFs/src/option/syscall.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rtc_ex.c \
@@ -177,7 +179,8 @@ C_INCLUDES =  \
 -IDrivers/CMSIS/Device/ST/STM32F0xx/Include \
 -IMiddlewares/Third_Party/FatFs/src \
 -IDrivers/CMSIS/Include \
--I../../HX8352C/inc
+-I../../HX8352C/inc 
+#-I../../ILI9341/Inc
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections

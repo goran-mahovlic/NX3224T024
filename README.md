@@ -1,6 +1,32 @@
 # NX3224T024
 
-To start
+Todo
+
+[x] LED backlight - PA8 - OK
+
+[x] Serial - loopback - OK
+
+[ ] Touch
+
+[ ] LCD
+
+[ ] SD
+
+[ ] RTC
+
+Need to recheck pinout for LCD to confirm LCD-RS
+Would be nice to know what type LCD is so I can check datasheet for startup
+
+Original LCD driver is in folder ILI9341
+
+Cloned from https://github.com/Ellissar/STM32_ILI9341
+
+I have mixed it in this version with 
+
+https://github.com/Alex2269/stm32_tft
+
+To start debug
+
 
 cd cubeMX/DonationBox
 

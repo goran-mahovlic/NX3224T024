@@ -54,6 +54,8 @@
 /* Includes ------------------------------------------------------------------*/
 
 /* USER CODE BEGIN Includes */
+#include "ILI9341_core.h"
+#include "ILI9341_draw.h"
 
 /* USER CODE END Includes */
 
@@ -113,6 +115,7 @@
 
 /* USER CODE BEGIN Private defines */
 extern char rxBuffer[100], dataReady, rxData[2];
+extern void ili9341_Init (void);
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
